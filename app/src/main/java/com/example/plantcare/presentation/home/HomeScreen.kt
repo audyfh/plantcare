@@ -2,13 +2,16 @@ package com.example.plantcare.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,70 +23,96 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.plantcare.domain.model.dummyPlant
 import com.example.plantcare.presentation.home.comps.FeatureCard
 import com.example.plantcare.presentation.home.comps.HomeHeader
 import com.example.plantcare.presentation.home.comps.HomeSearchBar
+import com.example.plantcare.presentation.home.comps.PlantCard
 import com.example.plantcare.presentation.home.comps.WeatherCard
 import com.example.plantcare.presentation.home.comps.listFeatureItems
 import com.example.plantcare.ui.theme.PlantCareTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
 
+    val viewModel : HomeViewModel = koinViewModel()
     var searchQuery by remember {
         mutableStateOf("")
     }
-    Column(
+
+    val plants = viewModel.plants.collectAsLazyPagingItems()
+
+
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        HomeHeader()
-        Spacer(modifier.height(24.dp))
-        HomeSearchBar(
-            query = searchQuery,
-            onQueryChange = {
-                searchQuery = it
-            },
-            onSearch = {}
-        )
-        Spacer(modifier.height(24.dp))
-        WeatherCard()
-        Spacer(modifier.height(24.dp))
-        Text(
-            "Plant Care",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color(0xFF1F4E20)
-        )
-        Spacer(modifier.height(14.dp))
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(listFeatureItems.size){
-                FeatureCard(
-                    title = listFeatureItems[it].title,
-                    description = listFeatureItems[it].description,
-                    icon = listFeatureItems[it].icon
-                ) {
-                    when(it){
-                        0 -> {}
-                        1 -> {}
-                        2 -> {}
-                        3 -> {}
+
+        item {
+            HomeHeader()
+        }
+
+        item {
+            HomeSearchBar(
+                query = searchQuery,
+                onQueryChange = { searchQuery = it },
+                onSearch = {}
+            )
+        }
+
+        item {
+            WeatherCard()
+        }
+
+        item {
+            Text(
+                "Plant Care",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color(0xFF1F4E20)
+            )
+        }
+
+        item {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                userScrollEnabled = false
+            ) {
+                items(listFeatureItems) { feature ->
+                    FeatureCard(
+                        title = feature.title,
+                        description = feature.description,
+                        icon = feature.icon
+                    ) {
+
                     }
                 }
             }
         }
-        Spacer(modifier.height(24.dp))
-        Text(
-            "Random Plants",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color(0xFF1F4E20)
-        )
-        Spacer(modifier.height(14.dp))
+
+        item {
+            Text(
+                "Random Plants",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color(0xFF1F4E20)
+            )
+        }
+
+        items(plants.itemCount) {
+            if (plants[it]!=null){
+                PlantCard(plant = plants[it]!!)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+        }
     }
 }
 
