@@ -24,11 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.plantcare.R
 import com.example.plantcare.domain.model.dummyPlant
 import com.example.plantcare.presentation.home.comps.FeatureCard
 import com.example.plantcare.presentation.home.comps.HomeHeader
 import com.example.plantcare.presentation.home.comps.HomeSearchBar
 import com.example.plantcare.presentation.home.comps.PlantCard
+import com.example.plantcare.presentation.home.comps.TaskCard
 import com.example.plantcare.presentation.home.comps.WeatherCard
 import com.example.plantcare.presentation.home.comps.listFeatureItems
 import com.example.plantcare.ui.theme.PlantCareTheme
@@ -41,9 +43,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     var searchQuery by remember {
         mutableStateOf("")
     }
-
-    val plants = viewModel.plants.collectAsLazyPagingItems()
-
 
     LazyColumn(
         modifier = modifier
@@ -101,17 +100,21 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
         item {
             Text(
-                "Random Plants",
+                "Tugasmu hari ini!",
                 style = MaterialTheme.typography.titleMedium,
                 color = Color(0xFF1F4E20)
             )
+            Spacer(modifier = Modifier.height(12.dp))
+            TaskCard(
+                title = "Plant Watering",
+                description = "Plant need to watering",
+                totalTask = 10,
+                progress = 0f,
+                img = R.drawable.taskimg
+            )
         }
-
-        items(plants.itemCount) {
-            if (plants[it]!=null){
-                PlantCard(plant = plants[it]!!)
-                Spacer(modifier = Modifier.height(12.dp))
-            }
+        item {
+            Spacer(modifier = Modifier.height(6.dp))
         }
     }
 }

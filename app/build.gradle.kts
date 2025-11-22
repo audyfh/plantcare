@@ -28,6 +28,11 @@ android {
             "PLANT_API_KEY",
             "\"${localProperties.getProperty("PLANT_API_KEY")}\""
         )
+        buildConfigField(
+            "String",
+            "CLOUDINARY_API_KEY",
+            "\"${localProperties.getProperty("CLOUDINARY_API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -95,6 +100,8 @@ dependencies {
     //room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
 
     // TensorFlow Lite
     implementation(libs.tensorflow.lite)

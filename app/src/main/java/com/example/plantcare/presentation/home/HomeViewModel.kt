@@ -15,6 +15,5 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
 
-    val plants = plantRepository.getPlantsPagingData().cachedIn(viewModelScope)
 }
 

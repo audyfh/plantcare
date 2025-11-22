@@ -37,9 +37,7 @@ private val LightColorScheme = lightColorScheme(
 fun PlantCareTheme(
     content: @Composable () -> Unit
 ) {
-    val colorScheme = com.example.plantcare.ui.theme.LightColorScheme
     MaterialTheme(
-        colorScheme = colorScheme,
         typography = Typography,
         content = content
     )

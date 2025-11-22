@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.plantcare.presentation.home.HomeScreen
+import com.example.plantcare.presentation.navigation.AppNavigation
 import com.example.plantcare.ui.theme.PlantCareTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PlantCareTheme {
-                HomeScreen()
+                AppNavigation()
             }
         }
     }

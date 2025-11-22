@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.plantcare.ui.theme.PrimaryGreen
 
 @Composable
 fun HomeHeader(modifier: Modifier = Modifier) {
@@ -63,7 +64,8 @@ fun HomeHeader(modifier: Modifier = Modifier) {
         ) {
             Icon(
                 Icons.Default.Notifications,
-                contentDescription = "notifications"
+                contentDescription = "notifications",
+                tint = PrimaryGreen
             )
         }
     }

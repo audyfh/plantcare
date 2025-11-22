@@ -1,0 +1,18 @@
+package com.example.plantcare.presentation.navigation
+
+import kotlinx.serialization.Serializable
+
+sealed interface AppRoute {
+
+    @Serializable
+    data object HomeRoute : AppRoute
+    @Serializable
+    data object PlantListRoute : AppRoute
+    @Serializable
+    data object MyGardenRoute : AppRoute
+    @Serializable
+    data object AiRoute : AppRoute
+
+    @Serializable
+    data object AddPlantRoute : AppRoute
+}
