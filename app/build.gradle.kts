@@ -33,6 +33,11 @@ android {
             "CLOUDINARY_API_KEY",
             "\"${localProperties.getProperty("CLOUDINARY_API_KEY")}\""
         )
+        buildConfigField(
+            "String",
+            "CLOUDINARY_URL",
+            "\"${localProperties.getProperty("CLOUDINARY_URL")}\""
+        )
     }
 
     buildTypes {
@@ -116,4 +121,7 @@ dependencies {
 
     // Other
     implementation(libs.generativeai)
+
+    //Cloudinary
+    implementation(libs.cloudinary.android)
 }

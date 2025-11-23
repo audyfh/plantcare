@@ -8,6 +8,7 @@ import com.example.plantcare.domain.repository.MyPlantRepository
 import com.example.plantcare.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class MyPlantRepositoryImpl(
     private val myPlantDao: MyPlantDao
@@ -42,20 +43,12 @@ class MyPlantRepositoryImpl(
         }
     }
 
-    override suspend fun getAllPlants(): Flow<Resource<List<MyPlant>>> {
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val data = myPlantDao.getAllPlants()
-                if (data.isEmpty()) {
-                    emit(Resource.Success(emptyList()))
-                }
-                val plants = data.map { it.toDomain() }
-                emit(Resource.Success(plants))
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message))
-            }
-        }
+    override fun getAllPlants(): Flow<List<MyPlant>> {
+       return myPlantDao.getAllPlants().map {
+           it.map { entity ->
+               entity.toDomain()
+           }
+       }
     }
 
     override suspend fun getPlantById(id: Int): Resource<MyPlant> {

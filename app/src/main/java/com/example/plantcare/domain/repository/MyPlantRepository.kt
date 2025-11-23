@@ -9,7 +9,7 @@ interface MyPlantRepository {
     suspend fun addPlant(plant: MyPlant) : Resource<Boolean>
     suspend fun deletePlant(plant: MyPlant) : Resource<Boolean>
     suspend fun updatePlant(plant: MyPlant) : Resource<Boolean>
-    suspend fun getAllPlants(): Flow<Resource<List<MyPlant>>>
+    fun getAllPlants(): Flow<List<MyPlant>>
     suspend fun getPlantById(id: Int): Resource<MyPlant>
 }
 

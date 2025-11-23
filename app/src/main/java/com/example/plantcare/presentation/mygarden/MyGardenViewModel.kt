@@ -23,30 +23,13 @@ class MyGardenViewModel(
     }
 
 
-    fun addPlant(myPlant: MyPlant){
-        viewModelScope.launch {
-            myPlantRepository.addPlant(myPlant)
-        }
-    }
 
-    private fun getAllPlants(){
+    private fun getAllPlants() {
         viewModelScope.launch {
             myPlantRepository.getAllPlants().collect {
-                when(it){
-                    is Resource.Success -> {
-                        _uiState.value = _uiState.value.copy(
-                            myPlants = it.data!!,
-                            isLoading = false,
-                        )
-                    }
-                    is Resource.Error -> {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            errorMsg = it.msg
-                            )
-                    }
-                    else -> {}
-                }
+                _uiState.value = _uiState.value.copy(
+                    myPlants = it
+                )
             }
         }
     }

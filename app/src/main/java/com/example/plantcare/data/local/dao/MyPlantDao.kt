@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.plantcare.data.local.model.MyPlantEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MyPlantDao {
@@ -18,7 +19,7 @@ interface MyPlantDao {
     suspend fun deletePlant(plantEntity: MyPlantEntity)
 
     @Query("SELECT * FROM my_plant")
-    suspend fun getAllPlants(): List<MyPlantEntity>
+    fun getAllPlants(): Flow<List<MyPlantEntity>>
 
     @Query("SELECT * FROM my_plant WHERE id = :id")
     suspend fun getPlant(id: Int) : MyPlantEntity

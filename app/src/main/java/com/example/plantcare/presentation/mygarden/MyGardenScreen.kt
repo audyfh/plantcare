@@ -38,6 +38,7 @@ import org.koin.androidx.compose.koinViewModel
 fun MyGardenScreen(
     modifier: Modifier = Modifier,
     viewModel: MyGardenViewModel,
+    navigateToDetail : (Int) -> Unit,
     navigateToAddPlant : () -> Unit
 ) {
 
@@ -46,7 +47,9 @@ fun MyGardenScreen(
         modifier = modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {},
+                onClick = {
+                    navigateToAddPlant()
+                },
                 containerColor = PrimaryGreen,
                 shape = RoundedCornerShape(22.dp)
             ) {
@@ -87,6 +90,7 @@ fun MyGardenScreen(
             when(selectedTab) {
                 "My Plants" -> MyPlantScreen(
                     viewModel = viewModel,
+                    navigateToDetail = {navigateToDetail(it)},
                     navigateToAddPlant = {navigateToAddPlant()}
                 )
                 "Schedule" -> Text("Schedule")

@@ -8,6 +8,9 @@ sealed interface AppRoute {
     data object HomeRoute : AppRoute
     @Serializable
     data object PlantListRoute : AppRoute
+
+    @Serializable
+    data object MyGardenRootRoute : AppRoute
     @Serializable
     data object MyGardenRoute : AppRoute
     @Serializable
@@ -15,4 +18,9 @@ sealed interface AppRoute {
 
     @Serializable
     data object AddPlantRoute : AppRoute
+
+    @Serializable
+    data class PlantDetailRoute(
+        val id : Int
+    ) : AppRoute
 }

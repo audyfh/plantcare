@@ -15,11 +15,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.example.plantcare.presentation.ai.AiScreen
 import com.example.plantcare.presentation.home.HomeScreen
-import com.example.plantcare.presentation.mygarden.AddPlantScreen
+import com.example.plantcare.presentation.mygarden.addplant.AddPlantScreen
 import com.example.plantcare.presentation.mygarden.MyGardenScreen
 import com.example.plantcare.presentation.mygarden.MyGardenViewModel
+import com.example.plantcare.presentation.mygarden.plantdetail.PlantDetailScreen
 import com.example.plantcare.presentation.navigation.comps.BottomNavBar
 import com.example.plantcare.presentation.plantlist.PlantListScreen
 import org.koin.compose.viewmodel.koinViewModel
@@ -30,26 +33,27 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     var selectedTab by remember { mutableIntStateOf(0) }
     val screenWithoutNavbar = listOf(
-        AppRoute.AddPlantRoute::class.qualifiedName!!
+        AppRoute.AddPlantRoute::class.qualifiedName!!,
+        AppRoute.PlantDetailRoute::class.qualifiedName!!
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val showBottomBar = currentDestination?.route?.let { currentRoute ->
-        !screenWithoutNavbar.any{
+        !screenWithoutNavbar.any {
             currentRoute.startsWith(it)
         }
     } ?: true
-    val gardenViewModel : MyGardenViewModel = koinViewModel()
+    val gardenViewModel: MyGardenViewModel = koinViewModel()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
-            if (showBottomBar){
+            if (showBottomBar) {
                 BottomNavBar(
                     selected = selectedTab
                 ) {
                     selectedTab = it
-                    when(it){
+                    when (it) {
                         0 -> navigateToTab(navController, AppRoute.HomeRoute)
                         1 -> navigateToTab(navController, AppRoute.PlantListRoute)
                         2 -> navigateToTab(navController, AppRoute.AiRoute)
@@ -73,17 +77,28 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             composable<AppRoute.AiRoute> {
                 AiScreen()
             }
-            composable<AppRoute.MyGardenRoute> {
-                MyGardenScreen(
-                    viewModel = gardenViewModel,
-                    navigateToAddPlant = {  navigateToTab(navController, AppRoute.AddPlantRoute) }
-                )
-            }
-            composable<AppRoute.AddPlantRoute> {
-                AddPlantScreen(
-                    navigateBack = {navController.popBackStack()},
-                    viewModel = gardenViewModel
-                )
+            navigation<AppRoute.MyGardenRootRoute>(startDestination = AppRoute.MyGardenRoute) {
+                composable<AppRoute.MyGardenRoute> {
+                    MyGardenScreen(
+                        viewModel = gardenViewModel,
+                        navigateToDetail = {
+                            navController.navigate(AppRoute.PlantDetailRoute(it))
+                        },
+                        navigateToAddPlant = { navController.navigate(AppRoute.AddPlantRoute) }
+                    )
+                }
+                composable<AppRoute.AddPlantRoute> {
+                    AddPlantScreen(
+                        navigateBack = { navController.popBackStack() }
+                    )
+                }
+                composable<AppRoute.PlantDetailRoute> {
+                    val args = it.toRoute<AppRoute.PlantDetailRoute>()
+                    PlantDetailScreen(
+                        plantId = args.id,
+                        navigateBack = { navController.popBackStack() }
+                    )
+                }
             }
         }
     }
