@@ -19,6 +19,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.plantcare.presentation.ai.AiScreen
 import com.example.plantcare.presentation.home.HomeScreen
+import com.example.plantcare.presentation.home.watering.WateringScreen
 import com.example.plantcare.presentation.mygarden.addplant.AddPlantScreen
 import com.example.plantcare.presentation.mygarden.MyGardenScreen
 import com.example.plantcare.presentation.mygarden.MyGardenViewModel
@@ -34,7 +35,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val screenWithoutNavbar = listOf(
         AppRoute.AddPlantRoute::class.qualifiedName!!,
-        AppRoute.PlantDetailRoute::class.qualifiedName!!
+        AppRoute.PlantDetailRoute::class.qualifiedName!!,
+        AppRoute.WateringPlantRoute::class.qualifiedName!!
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -69,13 +71,22 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             startDestination = AppRoute.HomeRoute
         ) {
             composable<AppRoute.HomeRoute> {
-                HomeScreen()
+                HomeScreen(
+                    navigateWatering = {
+                        navController.navigate(AppRoute.WateringPlantRoute)
+                    }
+                )
             }
             composable<AppRoute.PlantListRoute> {
                 PlantListScreen()
             }
             composable<AppRoute.AiRoute> {
                 AiScreen()
+            }
+            composable<AppRoute.WateringPlantRoute> {
+                WateringScreen(
+                    navigateBack = {navController.popBackStack()}
+                )
             }
             navigation<AppRoute.MyGardenRootRoute>(startDestination = AppRoute.MyGardenRoute) {
                 composable<AppRoute.MyGardenRoute> {

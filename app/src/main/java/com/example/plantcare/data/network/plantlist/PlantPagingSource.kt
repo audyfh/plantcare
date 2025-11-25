@@ -1,8 +1,8 @@
-package com.example.plantcare.data.network
+package com.example.plantcare.data.network.plantlist
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.plantcare.data.network.model.PlantData
 import com.example.plantcare.domain.model.PlantDomain
 import retrofit2.HttpException
 import java.io.IOException

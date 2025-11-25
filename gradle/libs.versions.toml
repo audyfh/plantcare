@@ -18,6 +18,7 @@ kotlinxSerializationJson = "1.8.0"
 ksp = "2.2.20-2.0.4"
 pagingComposeVersion = "3.3.6"
 pagingRuntimeKtxVersion = "3.3.6"
+playServicesLocationVersion = "21.2.0"
 room = "2.8.4"
 retrofit = "2.11.0"
 converterGson = "2.11.0"
@@ -60,6 +61,7 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocationVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }

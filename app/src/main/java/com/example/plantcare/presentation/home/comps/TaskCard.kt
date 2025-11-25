@@ -2,6 +2,7 @@ package com.example.plantcare.presentation.home.comps
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,8 @@ fun TaskCard(
     description: String,
     totalTask: Int,
     progress: Float,
-    img: Int
+    img: Int,
+    onClick: () -> Unit = {}
 ) {
     Row(    
         modifier = modifier
@@ -43,7 +45,10 @@ fun TaskCard(
             .height(120.dp)
             .clip(RoundedCornerShape(18.dp))
             .background(Color(0xFFF0F8FF))
-            .padding(12.dp),
+            .padding(12.dp)
+            .clickable{
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -59,12 +64,12 @@ fun TaskCard(
                     title,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.Black // Pastikan teks terlihat
+                    color = Color.Black
                 )
                 Text(
                     text = "$totalTask $description",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray // Warna subteks
+                    color = Color.Gray
                 )
             }
 

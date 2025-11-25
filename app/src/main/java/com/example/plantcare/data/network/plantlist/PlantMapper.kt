@@ -1,7 +1,7 @@
-package com.example.plantcare.data.network
+package com.example.plantcare.data.network.plantlist
 
-import com.example.plantcare.data.network.model.Links
-import com.example.plantcare.data.network.model.PlantData
+import com.example.plantcare.data.network.plantlist.model.Links
+import com.example.plantcare.data.network.plantlist.model.PlantData
 import com.example.plantcare.domain.model.PlantDomain
 
 fun PlantData.toDomain(): PlantDomain {

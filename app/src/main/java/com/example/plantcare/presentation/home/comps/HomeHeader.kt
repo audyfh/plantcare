@@ -23,7 +23,10 @@ import androidx.compose.ui.unit.dp
 import com.example.plantcare.ui.theme.PrimaryGreen
 
 @Composable
-fun HomeHeader(modifier: Modifier = Modifier) {
+fun HomeHeader(
+    modifier: Modifier = Modifier,
+    location: String?
+) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -46,7 +49,7 @@ fun HomeHeader(modifier: Modifier = Modifier) {
                     tint = Color(0xFF1F4E20)
                 )
                 Text(
-                    "Batu, Indonesia",
+                    location ?: "Malang",
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold
                 )

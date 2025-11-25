@@ -59,7 +59,7 @@ private val navItems = listOf(
         icon = R.drawable.ic_home
     ),
     NavBarItem(
-        title = "Random",
+        title = "Encyclopedia",
         icon = R.drawable.ic_random
     ),
     NavBarItem(

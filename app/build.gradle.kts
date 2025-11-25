@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.plantcare"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -37,6 +37,11 @@ android {
             "String",
             "CLOUDINARY_URL",
             "\"${localProperties.getProperty("CLOUDINARY_URL")}\""
+        )
+        buildConfigField(
+            "String",
+            "OPENWEATHER_API_KEY",
+            "\"${localProperties.getProperty("OPENWEATHER_API_KEY")}\""
         )
     }
 
@@ -121,6 +126,7 @@ dependencies {
 
     // Other
     implementation(libs.generativeai)
+    implementation(libs.play.services.location)
 
     //Cloudinary
     implementation(libs.cloudinary.android)

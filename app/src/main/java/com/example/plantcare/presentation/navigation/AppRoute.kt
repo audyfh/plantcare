@@ -20,6 +20,9 @@ sealed interface AppRoute {
     data object AddPlantRoute : AppRoute
 
     @Serializable
+    data object WateringPlantRoute : AppRoute
+
+    @Serializable
     data class PlantDetailRoute(
         val id : Int
     ) : AppRoute

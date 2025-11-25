@@ -1,6 +1,6 @@
 package com.example.plantcare.domain.model
 
-import com.example.plantcare.data.network.model.Links
+import com.example.plantcare.data.network.plantlist.model.Links
 
 data class PlantDomain(
     val author: String,

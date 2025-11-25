@@ -1,5 +1,6 @@
 package com.example.plantcare.presentation.plantlist
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ fun PlantListScreen(
 ) {
     val viewModel: PlantListViewModel = koinViewModel()
     val plantList = viewModel.plants.collectAsLazyPagingItems()
+    Log.d("Encyclopedia", "PlantListScreen: ${plantList.itemCount}")
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -40,7 +42,7 @@ fun PlantListScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                "Random Plants",
+                "Plant Encyclopedia",
                 style = MaterialTheme.typography.titleMedium,
                 color = Color(0xFF1F4E20)
             )

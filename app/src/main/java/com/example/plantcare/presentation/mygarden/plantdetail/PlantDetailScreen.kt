@@ -44,6 +44,7 @@ import com.example.plantcare.ui.theme.PrimaryGreen
 import com.example.plantcare.ui.theme.SandBeige
 import com.example.plantcare.ui.theme.SecondaryGreen
 import com.example.plantcare.ui.theme.SoftMint
+import com.example.plantcare.util.Utility
 import org.koin.compose.viewmodel.koinViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -121,7 +122,7 @@ private fun PlantDetailContent(
     val lastWateredPlaceholder = if (plant.lastWateredAt == 0L) {
         "Not watered yet"
     } else {
-        formatDateTime(plant.lastWateredAt)
+        Utility.formatDateTime(plant.lastWateredAt)
     }
 
     val healthStatusText = plant.healthStatus.ifBlank { "No health check yet" }
@@ -129,7 +130,7 @@ private fun PlantDetailContent(
     val lastDiagnosisPlaceholder = if (plant.lastDiagnosisAt == 0L) {
         "No diagnosis history"
     } else {
-        formatDateTime(plant.lastDiagnosisAt)
+        Utility.formatDateTime(plant.lastDiagnosisAt)
     }
 
     val diagnosisResultText = plant.diagnosisResult.ifBlank { "No diagnosis recorded" }
@@ -312,10 +313,3 @@ private fun InfoRow(
     }
 }
 
-
-private fun formatDateTime(timestamp: Long): String {
-    if (timestamp == 0L) return "-"
-    val date = Date(timestamp)
-    val formatter = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
-    return formatter.format(date)
-}

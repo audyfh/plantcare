@@ -1,4 +1,4 @@
-package com.example.plantcare.data.network.model
+package com.example.plantcare.data.network.plantlist.model
 
 data class PlantData(
     val author: String?,

@@ -22,11 +22,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.plantcare.R
+import com.example.plantcare.domain.model.WeatherDomain
 import com.example.plantcare.ui.theme.PlantCareTheme
+import kotlin.math.roundToInt
 
 @Composable
-fun WeatherCard(modifier: Modifier = Modifier) {
+fun WeatherCard(
+    modifier: Modifier = Modifier,
+    weather: WeatherDomain? = null
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -46,19 +52,19 @@ fun WeatherCard(modifier: Modifier = Modifier) {
         ) {
             Column {
                 Text(
-                    "23°C",
+                    text = "${weather?.main?.temp?.roundToInt()}°",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    "Hujan disertai petir",
-                    style = MaterialTheme.typography.bodyMedium
+                    "${weather?.weather[0]?.main}, ${weather?.weather[0]?.description}",
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
-            Image(
-                painter = painterResource(R.drawable.rainthunder),
+            AsyncImage(
+                model = "https://openweathermap.org/img/wn/${weather?.weather[0]?.icon}@2x.png",
                 contentDescription = null,
-                modifier = modifier.size(80.dp)
+                modifier = modifier.size(80.dp),
             )
         }
     }

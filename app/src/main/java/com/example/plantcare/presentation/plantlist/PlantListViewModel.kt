@@ -10,5 +10,4 @@ class PlantListViewModel(
 ) : ViewModel(){
 
     val plants = plantRepository.getPlantsPagingData().cachedIn(viewModelScope)
-
 }
