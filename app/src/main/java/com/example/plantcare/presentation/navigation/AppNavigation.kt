@@ -26,6 +26,7 @@ import com.example.plantcare.presentation.mygarden.MyGardenViewModel
 import com.example.plantcare.presentation.mygarden.plantdetail.PlantDetailScreen
 import com.example.plantcare.presentation.navigation.comps.BottomNavBar
 import com.example.plantcare.presentation.plantlist.PlantListScreen
+import com.example.plantcare.presentation.plantlist.detail.PlantListDetailScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -36,7 +37,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     val screenWithoutNavbar = listOf(
         AppRoute.AddPlantRoute::class.qualifiedName!!,
         AppRoute.PlantDetailRoute::class.qualifiedName!!,
-        AppRoute.WateringPlantRoute::class.qualifiedName!!
+        AppRoute.WateringPlantRoute::class.qualifiedName!!,
+        AppRoute.PlantListDetailRoute::class.qualifiedName!!
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -78,7 +80,11 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 )
             }
             composable<AppRoute.PlantListRoute> {
-                PlantListScreen()
+                PlantListScreen(
+                    navigateDetail = {
+                        navController.navigate(AppRoute.PlantListDetailRoute(it))
+                    }
+                )
             }
             composable<AppRoute.AiRoute> {
                 AiScreen()
@@ -108,6 +114,13 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     PlantDetailScreen(
                         plantId = args.id,
                         navigateBack = { navController.popBackStack() }
+                    )
+                }
+                composable<AppRoute.PlantListDetailRoute>{
+                    val args = it.toRoute<AppRoute.PlantListDetailRoute>()
+                    PlantListDetailScreen(
+                        plantId = args.id,
+                        navigateBack = {navController.popBackStack()}
                     )
                 }
             }

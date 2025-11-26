@@ -19,12 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.plantcare.presentation.home.comps.PlantCard
+import com.example.plantcare.presentation.plantlist.comps.PlantCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PlantListScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateDetail: (Int) -> Unit
 ) {
     val viewModel: PlantListViewModel = koinViewModel()
     val plantList = viewModel.plants.collectAsLazyPagingItems()
@@ -54,7 +55,10 @@ fun PlantListScreen(
         ) {
             items(plantList.itemCount) {
                 if (plantList[it] != null) {
-                    PlantCard(plant = plantList[it]!!)
+                    PlantCard(
+                        plant = plantList[it]!!,
+                        onClick = {navigateDetail(it)}
+                    )
                 }
             }
         }

@@ -1,6 +1,8 @@
-package com.example.plantcare.presentation.home.comps
+package com.example.plantcare.presentation.plantlist.comps
 
+import android.R.attr.onClick
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,12 +33,16 @@ import com.example.plantcare.ui.theme.PlantCareTheme
 @Composable
 fun PlantCard(
     modifier: Modifier = Modifier,
-    plant: PlantDomain
+    plant: PlantDomain,
+    onClick: (Int) -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(100.dp),
+            .height(100.dp)
+            .clickable{
+                onClick(plant.id ?: 1)
+            },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
@@ -72,21 +78,6 @@ fun PlantCard(
                     fontStyle = FontStyle.Italic
                 )
             }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PrevCard() {
-    PlantCareTheme {
-        Column(
-            modifier = Modifier.fillMaxSize().background(Color.White),
-            verticalArrangement = Arrangement.Center
-        ) {
-            PlantCard(
-                plant = dummyPlant[0]
-            )
         }
     }
 }
