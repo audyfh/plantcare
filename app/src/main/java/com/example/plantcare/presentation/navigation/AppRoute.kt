@@ -13,8 +13,17 @@ sealed interface AppRoute {
     data object MyGardenRootRoute : AppRoute
     @Serializable
     data object MyGardenRoute : AppRoute
+
+    @Serializable
+    data object AiRootRoute : AppRoute
     @Serializable
     data object AiRoute : AppRoute
+
+    @Serializable
+    data object ScanCameraRoute : AppRoute
+
+    @Serializable
+    data object IdentifyResultRoute : AppRoute
 
     @Serializable
     data object AddPlantRoute : AppRoute

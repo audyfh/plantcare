@@ -1,5 +1,6 @@
 package com.example.plantcare.presentation.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,6 +10,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -18,6 +20,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.plantcare.presentation.ai.AiScreen
+import com.example.plantcare.presentation.ai.identify.IdentifyPlantScreen
+import com.example.plantcare.presentation.ai.identify.PlantIdentifyResultScreen
 import com.example.plantcare.presentation.home.HomeScreen
 import com.example.plantcare.presentation.home.search.SearchScreen
 import com.example.plantcare.presentation.home.watering.WateringScreen
@@ -52,7 +56,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     val gardenViewModel: MyGardenViewModel = koinViewModel()
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(Color.White),
         bottomBar = {
             if (showBottomBar) {
                 BottomNavBar(
@@ -91,8 +95,15 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     }
                 )
             }
-            composable<AppRoute.AiRoute> {
-                AiScreen()
+            navigation<AppRoute.AiRootRoute>(startDestination = AppRoute.AiRoute){
+                composable<AppRoute.AiRoute> {
+                    AiScreen(
+                        navigateIdentify = {navController.navigate(AppRoute.IdentifyResultRoute)}
+                    )
+                }
+                composable<AppRoute.IdentifyResultRoute> {
+                    IdentifyPlantScreen()
+                }
             }
             composable<AppRoute.WateringPlantRoute> {
                 WateringScreen(
