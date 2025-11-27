@@ -43,4 +43,22 @@ class PlantRepositoryImpl(
         }
         return Resource.Error("Something went wrong")
     }
+
+    override suspend fun searchPlants(query: String): Resource<List<PlantDomain>> {
+        try {
+            val data = plantService.searchPlants(query)
+            if (data.isSuccessful){
+                val plants = data.body()?.data
+                if (plants != null) {
+                    return Resource.Success(plants.map { it.toDomain() })
+                } else {
+                    return Resource.Error("Plant not found")
+                }
+            }
+        } catch (e : Exception) {
+            Log.e("PlantRepositoryImpl", "searchPlants: ${e.message}")
+            return Resource.Error("Something went wrong")
+        }
+        return Resource.Error("Something went wrong")
+    }
 }

@@ -19,6 +19,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.plantcare.presentation.ai.AiScreen
 import com.example.plantcare.presentation.home.HomeScreen
+import com.example.plantcare.presentation.home.search.SearchScreen
 import com.example.plantcare.presentation.home.watering.WateringScreen
 import com.example.plantcare.presentation.mygarden.addplant.AddPlantScreen
 import com.example.plantcare.presentation.mygarden.MyGardenScreen
@@ -38,7 +39,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         AppRoute.AddPlantRoute::class.qualifiedName!!,
         AppRoute.PlantDetailRoute::class.qualifiedName!!,
         AppRoute.WateringPlantRoute::class.qualifiedName!!,
-        AppRoute.PlantListDetailRoute::class.qualifiedName!!
+        AppRoute.PlantListDetailRoute::class.qualifiedName!!,
+        AppRoute.PlantSearchRoute::class.qualifiedName!!
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -76,6 +78,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 HomeScreen(
                     navigateWatering = {
                         navController.navigate(AppRoute.WateringPlantRoute)
+                    },
+                    navigateSearch = {
+                        navController.navigate(AppRoute.PlantSearchRoute(it))
                     }
                 )
             }
@@ -120,6 +125,16 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     val args = it.toRoute<AppRoute.PlantListDetailRoute>()
                     PlantListDetailScreen(
                         plantId = args.id,
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable<AppRoute.PlantSearchRoute>{
+                    val args = it.toRoute<AppRoute.PlantSearchRoute>()
+                    SearchScreen(
+                        query = args.query,
+                        navigateDetail = {
+                            navController.navigate(AppRoute.PlantListDetailRoute(it))
+                        },
                         navigateBack = {navController.popBackStack()}
                     )
                 }

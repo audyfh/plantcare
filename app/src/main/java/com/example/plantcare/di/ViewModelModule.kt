@@ -1,6 +1,7 @@
 package com.example.plantcare.di
 
 import com.example.plantcare.presentation.home.HomeViewModel
+import com.example.plantcare.presentation.home.search.SearchViewModel
 import com.example.plantcare.presentation.home.watering.WateringViewModel
 import com.example.plantcare.presentation.mygarden.MyGardenViewModel
 import com.example.plantcare.presentation.mygarden.addplant.AddPlantViewModel
@@ -18,4 +19,5 @@ val viewModelModule = module {
    viewModelOf(::PlantDetailViewModel)
    viewModelOf(::WateringViewModel)
    viewModelOf(::PlantListDetailViewModel)
+   viewModelOf(::SearchViewModel)
 }

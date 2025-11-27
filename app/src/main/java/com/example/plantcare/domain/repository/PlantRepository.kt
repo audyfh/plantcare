@@ -10,6 +10,7 @@ interface PlantRepository {
 
     fun getPlantsPagingData(): Flow<PagingData<PlantDomain>>
     suspend fun getPlantDetail(id: String): Resource<PlantDetailDomain>
+    suspend fun searchPlants(query: String): Resource<List<PlantDomain>>
 }
 
 

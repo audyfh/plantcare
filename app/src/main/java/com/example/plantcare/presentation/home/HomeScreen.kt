@@ -43,7 +43,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigateWatering : () -> Unit
+    navigateWatering : () -> Unit,
+    navigateSearch : (String) -> Unit
 ) {
 
     val viewModel : HomeViewModel = koinViewModel()
@@ -99,7 +100,9 @@ fun HomeScreen(
                     HomeSearchBar(
                         query = searchQuery,
                         onQueryChange = { searchQuery = it },
-                        onSearch = {}
+                        onSearch = {
+                            navigateSearch(searchQuery)
+                        }
                     )
                 }
 

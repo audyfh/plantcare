@@ -31,4 +31,9 @@ sealed interface AppRoute {
     data class PlantListDetailRoute(
         val id : Int
     ) : AppRoute
+
+    @Serializable
+    data class PlantSearchRoute(
+        val query : String
+    ) : AppRoute
 }

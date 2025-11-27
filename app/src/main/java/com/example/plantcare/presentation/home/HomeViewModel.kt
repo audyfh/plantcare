@@ -1,10 +1,13 @@
 package com.example.plantcare.presentation.home
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantcare.domain.repository.MyPlantRepository
+import com.example.plantcare.domain.repository.PlantRepository
 import com.example.plantcare.domain.repository.WeatherRepository
+import com.example.plantcare.util.Resource
 import com.example.plantcare.util.location.LocationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -76,15 +79,18 @@ class HomeViewModel(
                 isLoading = true
             )
             val latLon = locationRepository.getCurrentLocation()
+            Log.d("HomeViewModel", "getWeather: $latLon")
             if (latLon != null) {
                 val data = weatherRepository
                     .getCurrentWeather(latLon.latitude, latLon.longitude)
                 if (data != null) {
+                    Log.d("HomeViewModel", "getWeather: ${data.data}")
                     _state.value = _state.value.copy(
                         weather = data.data,
                         isLoading = false
                     )
                 } else {
+                    Log.d("HomeViewModel", "getWeather: ${data.msg}")
                     _state.value = _state.value.copy(
                         errorMsg =  "Unknown Error",
                         isLoading = false

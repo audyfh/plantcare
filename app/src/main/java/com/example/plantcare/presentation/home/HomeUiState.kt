@@ -5,8 +5,9 @@ import com.example.plantcare.domain.model.WeatherDomain
 
 data class HomeUiState(
     val isLoading: Boolean = false,
-    val errorMsg: String = "",
+    val errorMsg: String? = null,
     val wateringProgress: Float = 0f,
     val totalNeedWatering : Int = 0,
-    val weather : WeatherDomain? = null
+    val weather : WeatherDomain? = null,
+    val plants : List<PlantDomain> = emptyList(),
 )

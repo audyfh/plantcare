@@ -27,6 +27,11 @@ interface PlantService {
         @Path("id") id: String
     ) : Response<PlantDetailResponse>
 
+    @GET("plants/search?token=$API_KEY")
+    suspend fun searchPlants(
+        @Query("q") query: String
+    ) : Response<PlantResponse>
+
 
 }
 
