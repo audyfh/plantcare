@@ -20,8 +20,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.plantcare.presentation.ai.AiScreen
+import com.example.plantcare.presentation.ai.diagnose.DiagnoseResultScreen
+import com.example.plantcare.presentation.ai.diagnose.DiagnoseScreen
+import com.example.plantcare.presentation.ai.diagnose.DiagnosisViewModel
 import com.example.plantcare.presentation.ai.identify.IdentifyPlantScreen
-import com.example.plantcare.presentation.ai.identify.PlantIdentifyResultScreen
 import com.example.plantcare.presentation.home.HomeScreen
 import com.example.plantcare.presentation.home.search.SearchScreen
 import com.example.plantcare.presentation.home.watering.WateringScreen
@@ -44,7 +46,10 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         AppRoute.PlantDetailRoute::class.qualifiedName!!,
         AppRoute.WateringPlantRoute::class.qualifiedName!!,
         AppRoute.PlantListDetailRoute::class.qualifiedName!!,
-        AppRoute.PlantSearchRoute::class.qualifiedName!!
+        AppRoute.PlantSearchRoute::class.qualifiedName!!,
+        AppRoute.IdentifyRoute::class.qualifiedName!!,
+        AppRoute.DiagnoseRoute::class.qualifiedName!!,
+        AppRoute.DiagnoseResultRoute::class.qualifiedName!!
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -54,6 +59,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         }
     } ?: true
     val gardenViewModel: MyGardenViewModel = koinViewModel()
+    val diagnoseViewModel: DiagnosisViewModel = koinViewModel()
 
     Scaffold(
         modifier = modifier.fillMaxSize().background(Color.White),
@@ -85,6 +91,12 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     },
                     navigateSearch = {
                         navController.navigate(AppRoute.PlantSearchRoute(it))
+                    },
+                    navigateDiagnose = {
+                        navController.navigate(AppRoute.DiagnoseRoute)
+                    },
+                    navigateIdentify = {
+                        navController.navigate(AppRoute.IdentifyRoute)
                     }
                 )
             }
@@ -98,11 +110,29 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             navigation<AppRoute.AiRootRoute>(startDestination = AppRoute.AiRoute){
                 composable<AppRoute.AiRoute> {
                     AiScreen(
-                        navigateIdentify = {navController.navigate(AppRoute.IdentifyResultRoute)}
+                        navigateIdentify = {navController.navigate(AppRoute.IdentifyRoute)},
+                        navigateDiagnose = {navController.navigate(AppRoute.DiagnoseRoute)}
                     )
                 }
-                composable<AppRoute.IdentifyResultRoute> {
-                    IdentifyPlantScreen()
+                composable<AppRoute.IdentifyRoute> {
+                    IdentifyPlantScreen(
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable<AppRoute.DiagnoseRoute> {
+
+                    DiagnoseScreen(
+                        viewModel = diagnoseViewModel,
+                        navigateBack = {navController.popBackStack()},
+                        navigateDiagnose = {navController.navigate(AppRoute.DiagnoseResultRoute)}
+                    )
+                }
+                composable<AppRoute.DiagnoseResultRoute> { entry ->
+
+                    DiagnoseResultScreen(
+                        viewModel = diagnoseViewModel,
+                        navigateBack = { navController.popBackStack()}
+                    )
                 }
             }
             composable<AppRoute.WateringPlantRoute> {

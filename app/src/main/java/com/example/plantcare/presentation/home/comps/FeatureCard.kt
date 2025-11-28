@@ -92,7 +92,7 @@ val listFeatureItems = listOf(
         icon = R.drawable.feature3_1
     ),
     FeatureItem(
-        title = "Reminder",
+        title = "Schedule",
         description = "Stay on top of your plant care",
         icon = R.drawable.feature4
     ),

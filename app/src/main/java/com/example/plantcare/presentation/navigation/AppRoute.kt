@@ -20,13 +20,16 @@ sealed interface AppRoute {
     data object AiRoute : AppRoute
 
     @Serializable
-    data object ScanCameraRoute : AppRoute
-
-    @Serializable
-    data object IdentifyResultRoute : AppRoute
+    data object IdentifyRoute : AppRoute
 
     @Serializable
     data object AddPlantRoute : AppRoute
+
+    @Serializable
+    data object DiagnoseRoute : AppRoute
+
+    @Serializable
+    data object DiagnoseResultRoute : AppRoute
 
     @Serializable
     data object WateringPlantRoute : AppRoute

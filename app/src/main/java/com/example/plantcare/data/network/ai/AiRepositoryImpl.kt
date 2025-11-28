@@ -4,6 +4,7 @@ package com.example.plantcare.data.network.ai
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.example.plantcare.domain.model.PlantDiagnosis
 import com.example.plantcare.domain.model.PlantIdentify
 import com.example.plantcare.domain.repository.AiRepository
 import com.example.plantcare.util.Resource
@@ -59,6 +60,54 @@ If you really cannot identify the plant at all, use:
                 Log.d("AI", "identifyPlant: $json")
                 val plant = Json.decodeFromString<PlantIdentify>(json)
                 return Resource.Success(plant)
+
+            }
+        } catch (e: Exception) {
+            return Resource.Error(e.message.toString())
+        }
+        return Resource.Error("Unknown Error")
+    }
+
+    override suspend fun diagnosePlant(
+        context: Context,
+        image: Uri
+    ): Resource<PlantDiagnosis> {
+        val prompt = """
+You are an expert plant pathologist. Analyze the plant in the image and diagnose its health condition.
+
+Your task:
+1. Determine whether the plant is healthy or not.
+2. If unhealthy, identify the most likely disease, nutrient deficiency, pest attack, fungus, rot, or environmental stress.
+3. Provide a short but clear explanation.
+
+Output Rules:
+- Your entire response MUST be valid JSON only.
+- Do NOT include any explanations outside JSON.
+- Use this structure exactly:
+
+{
+  "health_status": "...",
+  "diagnosis_result": "..."
+}
+
+Where:
+- health_status = "healthy" or "unhealthy"
+- diagnosis_result = explanation (max 3–4 sentences)
+
+Start your analysis now.
+""".trimIndent()
+        try {
+            val bitmap = Utility.uriToBitmap(context, image)
+            val response = gemini.generateContent(
+                content {
+                    image(bitmap!!)
+                    text(prompt)
+                }
+            )
+            response.text?.let {
+                val json = Utility.extractJson(it)
+                val diagnosis = Json.decodeFromString<PlantDiagnosis>(json)
+                return Resource.Success(diagnosis)
 
             }
         } catch (e: Exception) {

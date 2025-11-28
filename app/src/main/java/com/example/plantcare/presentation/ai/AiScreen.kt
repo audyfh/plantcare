@@ -22,7 +22,8 @@ import com.example.plantcare.presentation.ai.comps.AiCard
 @Composable
 fun AiScreen(
     modifier: Modifier = Modifier,
-    navigateIdentify: () -> Unit
+    navigateIdentify: () -> Unit,
+    navigateDiagnose: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -55,6 +56,6 @@ fun AiScreen(
             description = "Diagnose your plant disease and health status",
             image = R.drawable.img_diagnose,
             btnText = "Start Diagnose"
-        ) { }
+        ) { navigateDiagnose()}
     }
 }
