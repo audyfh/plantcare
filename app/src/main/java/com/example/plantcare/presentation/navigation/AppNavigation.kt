@@ -73,7 +73,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                         0 -> navigateToTab(navController, AppRoute.HomeRoute)
                         1 -> navigateToTab(navController, AppRoute.PlantListRoute)
                         2 -> navigateToTab(navController, AppRoute.AiRoute)
-                        3 -> navigateToTab(navController, AppRoute.MyGardenRoute)
+                        3 -> navigateToTab(navController, AppRoute.MyGardenRoute())
                     }
                 }
             }
@@ -97,6 +97,14 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     },
                     navigateIdentify = {
                         navController.navigate(AppRoute.IdentifyRoute)
+                    },
+                    navigateSchedule = {
+                        selectedTab = 3
+                        navigateToTab(navController, AppRoute.MyGardenRoute(it))
+                    },
+                    navigateMyPlant = {
+                        selectedTab = 3
+                        navigateToTab(navController, AppRoute.MyGardenRoute(it))
                     }
                 )
             }
@@ -140,7 +148,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     navigateBack = {navController.popBackStack()}
                 )
             }
-            navigation<AppRoute.MyGardenRootRoute>(startDestination = AppRoute.MyGardenRoute) {
+            navigation<AppRoute.MyGardenRootRoute>(startDestination = AppRoute.MyGardenRoute()) {
                 composable<AppRoute.MyGardenRoute> {
                     MyGardenScreen(
                         viewModel = gardenViewModel,

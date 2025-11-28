@@ -132,6 +132,7 @@ dependencies {
     // Other
     implementation(libs.generativeai)
     implementation(libs.play.services.location)
+    implementation("com.kizitonwose.calendar:compose:2.9.0")
 
     //Cloudinary
     implementation(libs.cloudinary.android)

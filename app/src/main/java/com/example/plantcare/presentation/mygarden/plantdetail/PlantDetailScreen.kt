@@ -107,7 +107,6 @@ fun PlantDetailScreen(
             PlantDetailContent(
                 plant = plant,
                 modifier = Modifier
-                    .padding(top = paddingValues.calculateTopPadding())
                     .fillMaxSize()
             )
         }

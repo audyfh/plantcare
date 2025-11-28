@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantcare.domain.model.MyPlant
 import com.example.plantcare.domain.repository.AiRepository
-import com.example.plantcare.domain.repository.MyPlantRepository
+import com.example.plantcare.domain.repository.MyGardenRepository
 import com.example.plantcare.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DiagnosisViewModel(
-    private val myPlantRepository: MyPlantRepository,
+    private val myGardenRepository: MyGardenRepository,
     private val aiRepository: AiRepository
 ) : ViewModel() {
 
@@ -27,7 +27,7 @@ class DiagnosisViewModel(
 
     private fun getAllPlants() {
         viewModelScope.launch {
-            myPlantRepository.getAllPlants().collect {
+            myGardenRepository.getAllPlants().collect {
                 _state.value = _state.value.copy(
                     myPlantList = it
                 )
@@ -62,7 +62,7 @@ class DiagnosisViewModel(
         myPlant: MyPlant
     ) {
         viewModelScope.launch {
-            myPlantRepository.updatePlant(myPlant)
+            myGardenRepository.updatePlant(myPlant)
         }
     }
 

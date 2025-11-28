@@ -1,20 +1,18 @@
 package com.example.plantcare.presentation.mygarden.addplant
 
 import android.net.Uri
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantcare.domain.model.MyPlant
 import com.example.plantcare.domain.repository.CloudinaryRepository
-import com.example.plantcare.domain.repository.MyPlantRepository
+import com.example.plantcare.domain.repository.MyGardenRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AddPlantViewModel(
     private val cloudinaryRepository: CloudinaryRepository,
-    private val myPlantRepository: MyPlantRepository
+    private val myGardenRepository: MyGardenRepository
 ) : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -25,7 +23,7 @@ class AddPlantViewModel(
 
     fun addPlant(myPlant: MyPlant) {
         viewModelScope.launch {
-            myPlantRepository.addPlant(myPlant)
+            myGardenRepository.addPlant(myPlant)
         }
     }
 

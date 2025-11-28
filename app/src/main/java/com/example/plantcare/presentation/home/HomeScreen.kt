@@ -46,7 +46,9 @@ fun HomeScreen(
     navigateWatering : () -> Unit,
     navigateSearch : (String) -> Unit,
     navigateIdentify: () -> Unit,
-    navigateDiagnose: () -> Unit
+    navigateDiagnose: () -> Unit,
+    navigateMyPlant : (String) -> Unit,
+    navigateSchedule : (String) -> Unit
 ) {
 
     val viewModel : HomeViewModel = koinViewModel()
@@ -145,7 +147,12 @@ fun HomeScreen(
                                     feature.title == "Identify" -> {
                                         navigateIdentify()
                                     }
-
+                                    feature.title == "My Plants" -> {
+                                        navigateMyPlant("My Plants")
+                                    }
+                                    feature.title == "Schedule" -> {
+                                        navigateSchedule("Schedule")
+                                    }
                                 }
                             }
                         }

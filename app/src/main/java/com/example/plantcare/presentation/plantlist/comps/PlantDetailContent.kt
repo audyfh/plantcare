@@ -45,7 +45,8 @@ fun PlantDetailContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.White)
+            .padding(14.dp),
     ) {
         // IMAGE
         Card(

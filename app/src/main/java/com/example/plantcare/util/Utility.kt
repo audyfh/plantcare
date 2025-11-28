@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -56,4 +57,12 @@ object Utility {
             text
         }
     }
+
+    fun formatDate(millis: Long) : String {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        return Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate().format(formatter)
+    }
+
+    fun Long.toLocalDate(): LocalDate =
+        Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
 }

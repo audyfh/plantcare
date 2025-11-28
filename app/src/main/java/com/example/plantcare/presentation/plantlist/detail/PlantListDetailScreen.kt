@@ -77,7 +77,9 @@ fun PlantListDetailScreen(
                 Spacer(Modifier.width(24.dp))
             }
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
     ) { paddingValues ->
         when {
             state.isLoading -> {
@@ -122,12 +124,7 @@ fun PlantListDetailScreen(
                 PlantDetailContent(
                     plant = state.plant!!,
                     modifier = Modifier
-                        .padding(
-                            top = paddingValues.calculateTopPadding(),
-                            start = 14.dp,
-                            end = 14.dp,
-                            bottom = 14.dp
-                        )
+                        .fillMaxSize()
                 )
             }
         }

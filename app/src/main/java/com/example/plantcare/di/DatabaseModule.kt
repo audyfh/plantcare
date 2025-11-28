@@ -23,6 +23,9 @@ val databaseModule = module {
 
     single{
         get<PlantDatabase>().plantDiagnosisDao
+    }
 
+    single {
+        get<PlantDatabase>().scheduleDao
     }
 }
