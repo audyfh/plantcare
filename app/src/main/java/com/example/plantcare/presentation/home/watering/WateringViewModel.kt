@@ -3,13 +3,13 @@ package com.example.plantcare.presentation.home.watering
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantcare.domain.model.MyPlant
-import com.example.plantcare.domain.repository.MyPlantRepository
+import com.example.plantcare.domain.repository.MyGardenRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class WateringViewModel(
-    private val myPlantRepository: MyPlantRepository
+    private val myGardenRepository: MyGardenRepository
 ) : ViewModel() {
 
     private val _plants = MutableStateFlow<List<MyPlant>>(emptyList())
@@ -23,7 +23,7 @@ class WateringViewModel(
         nowProvider: () -> Long = { System.currentTimeMillis() }
     ) {
         viewModelScope.launch {
-            myPlantRepository.getAllPlants().collect { allPlants ->
+            myGardenRepository.getAllPlants().collect { allPlants ->
                 val now = nowProvider()
 
                 val needWatering = allPlants.filter { plant ->
@@ -47,7 +47,7 @@ class WateringViewModel(
     ) {
         viewModelScope.launch {
             val updatedPlant = plant.copy(lastWateredAt = wateringTime)
-            myPlantRepository.updatePlant(updatedPlant)
+            myGardenRepository.updatePlant(updatedPlant)
         }
     }
 }

@@ -1,11 +1,16 @@
 package com.example.plantcare.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import com.google.android.gms.location.LocationServices
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -29,4 +34,35 @@ object Utility {
 
         return plantDate == today
     }
+
+    fun uriToBitmap(
+        context: Context,
+        uri: Uri
+    ): Bitmap? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun extractJson(text: String): String {
+        val start = text.indexOf('{')
+        val end = text.lastIndexOf('}')
+        return if (start != -1 && end != -1 && end > start) {
+            text.substring(start, end + 1)
+        } else {
+            text
+        }
+    }
+
+    fun formatDate(millis: Long) : String {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        return Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate().format(formatter)
+    }
+
+    fun Long.toLocalDate(): LocalDate =
+        Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
 }

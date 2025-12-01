@@ -1,5 +1,6 @@
 package com.example.plantcare.presentation.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,6 +10,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -18,6 +20,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.plantcare.presentation.ai.AiScreen
+import com.example.plantcare.presentation.ai.diagnose.DiagnoseResultScreen
+import com.example.plantcare.presentation.ai.diagnose.DiagnoseScreen
+import com.example.plantcare.presentation.ai.diagnose.DiagnosisViewModel
+import com.example.plantcare.presentation.ai.identify.IdentifyPlantScreen
 import com.example.plantcare.presentation.home.HomeScreen
 import com.example.plantcare.presentation.home.search.SearchScreen
 import com.example.plantcare.presentation.home.watering.WateringScreen
@@ -40,7 +46,10 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         AppRoute.PlantDetailRoute::class.qualifiedName!!,
         AppRoute.WateringPlantRoute::class.qualifiedName!!,
         AppRoute.PlantListDetailRoute::class.qualifiedName!!,
-        AppRoute.PlantSearchRoute::class.qualifiedName!!
+        AppRoute.PlantSearchRoute::class.qualifiedName!!,
+        AppRoute.IdentifyRoute::class.qualifiedName!!,
+        AppRoute.DiagnoseRoute::class.qualifiedName!!,
+        AppRoute.DiagnoseResultRoute::class.qualifiedName!!
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -50,9 +59,10 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         }
     } ?: true
     val gardenViewModel: MyGardenViewModel = koinViewModel()
+    val diagnoseViewModel: DiagnosisViewModel = koinViewModel()
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(Color.White),
         bottomBar = {
             if (showBottomBar) {
                 BottomNavBar(
@@ -63,7 +73,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                         0 -> navigateToTab(navController, AppRoute.HomeRoute)
                         1 -> navigateToTab(navController, AppRoute.PlantListRoute)
                         2 -> navigateToTab(navController, AppRoute.AiRoute)
-                        3 -> navigateToTab(navController, AppRoute.MyGardenRoute)
+                        3 -> navigateToTab(navController, AppRoute.MyGardenRoute())
                     }
                 }
             }
@@ -81,6 +91,20 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     },
                     navigateSearch = {
                         navController.navigate(AppRoute.PlantSearchRoute(it))
+                    },
+                    navigateDiagnose = {
+                        navController.navigate(AppRoute.DiagnoseRoute)
+                    },
+                    navigateIdentify = {
+                        navController.navigate(AppRoute.IdentifyRoute)
+                    },
+                    navigateSchedule = {
+                        selectedTab = 3
+                        navigateToTab(navController, AppRoute.MyGardenRoute(it))
+                    },
+                    navigateMyPlant = {
+                        selectedTab = 3
+                        navigateToTab(navController, AppRoute.MyGardenRoute(it))
                     }
                 )
             }
@@ -91,15 +115,40 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                     }
                 )
             }
-            composable<AppRoute.AiRoute> {
-                AiScreen()
+            navigation<AppRoute.AiRootRoute>(startDestination = AppRoute.AiRoute){
+                composable<AppRoute.AiRoute> {
+                    AiScreen(
+                        navigateIdentify = {navController.navigate(AppRoute.IdentifyRoute)},
+                        navigateDiagnose = {navController.navigate(AppRoute.DiagnoseRoute)}
+                    )
+                }
+                composable<AppRoute.IdentifyRoute> {
+                    IdentifyPlantScreen(
+                        navigateBack = {navController.popBackStack()}
+                    )
+                }
+                composable<AppRoute.DiagnoseRoute> {
+
+                    DiagnoseScreen(
+                        viewModel = diagnoseViewModel,
+                        navigateBack = {navController.popBackStack()},
+                        navigateDiagnose = {navController.navigate(AppRoute.DiagnoseResultRoute)}
+                    )
+                }
+                composable<AppRoute.DiagnoseResultRoute> { entry ->
+
+                    DiagnoseResultScreen(
+                        viewModel = diagnoseViewModel,
+                        navigateBack = { navController.popBackStack()}
+                    )
+                }
             }
             composable<AppRoute.WateringPlantRoute> {
                 WateringScreen(
                     navigateBack = {navController.popBackStack()}
                 )
             }
-            navigation<AppRoute.MyGardenRootRoute>(startDestination = AppRoute.MyGardenRoute) {
+            navigation<AppRoute.MyGardenRootRoute>(startDestination = AppRoute.MyGardenRoute()) {
                 composable<AppRoute.MyGardenRoute> {
                     MyGardenScreen(
                         viewModel = gardenViewModel,

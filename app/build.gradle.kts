@@ -43,6 +43,11 @@ android {
             "OPENWEATHER_API_KEY",
             "\"${localProperties.getProperty("OPENWEATHER_API_KEY")}\""
         )
+        buildConfigField(
+            "String",
+            "GEMINI_API_KEY",
+            "\"${localProperties.getProperty("GEMINI_API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -127,6 +132,7 @@ dependencies {
     // Other
     implementation(libs.generativeai)
     implementation(libs.play.services.location)
+    implementation("com.kizitonwose.calendar:compose:2.9.0")
 
     //Cloudinary
     implementation(libs.cloudinary.android)

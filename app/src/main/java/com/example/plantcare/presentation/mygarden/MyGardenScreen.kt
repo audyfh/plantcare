@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.plantcare.domain.model.Schedule
+import com.example.plantcare.presentation.mygarden.comps.AddScheduleDialog
 import com.example.plantcare.presentation.mygarden.comps.CustomTab
 import com.example.plantcare.ui.theme.OffWhite
 import com.example.plantcare.ui.theme.PrimaryGreen
@@ -39,16 +41,25 @@ fun MyGardenScreen(
     modifier: Modifier = Modifier,
     viewModel: MyGardenViewModel,
     navigateToDetail : (Int) -> Unit,
-    navigateToAddPlant : () -> Unit
+    navigateToAddPlant : () -> Unit,
+    selectedTab : String = "My Plants"
 ) {
 
-    var selectedTab by remember { mutableStateOf("My Plants") }
+    var selectedTab by remember { mutableStateOf(selectedTab) }
+    var showAddScheduleDialog by remember { mutableStateOf(false) }
     Scaffold(
         modifier = modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navigateToAddPlant()
+                    when{
+                        selectedTab == "My Plants" -> {
+                            navigateToAddPlant()
+                        }
+                        else -> {
+                            showAddScheduleDialog = true
+                        }
+                    }
                 },
                 containerColor = PrimaryGreen,
                 shape = RoundedCornerShape(22.dp)
@@ -93,11 +104,25 @@ fun MyGardenScreen(
                     navigateToDetail = {navigateToDetail(it)},
                     navigateToAddPlant = {navigateToAddPlant()}
                 )
-                "Schedule" -> Text("Schedule")
+                "Schedule" -> ScheduleScreen(
+                    viewModel = viewModel
+                )
             }
         }
+        if (showAddScheduleDialog) {
+            AddScheduleDialog(
+                onDismiss = { showAddScheduleDialog = false },
+                onSave = { title, description, dateMillis ->
+                    val schedule = Schedule(
+                        id = 0,
+                        title = title,
+                        description = description,
+                        date = dateMillis
+                    )
+                    viewModel.addSchedule(schedule)
+                    showAddScheduleDialog = false
+                }
+            )
+        }
     }
-
-
-
 }

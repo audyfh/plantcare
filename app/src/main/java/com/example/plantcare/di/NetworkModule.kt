@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary
 import com.example.plantcare.BuildConfig
 import com.example.plantcare.data.network.plantlist.PlantService
 import com.example.plantcare.data.network.weather.WeatherService
+import com.google.ai.client.generativeai.GenerativeModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -40,5 +41,12 @@ val networkModule = module {
         config["api_key"] = "258893955281917"
         config["api_secret"] = BuildConfig.CLOUDINARY_API_KEY
         Cloudinary(config)
+    }
+
+    single {
+        GenerativeModel(
+            apiKey = BuildConfig.GEMINI_API_KEY,
+            modelName = "gemini-2.5-pro"
+        )
     }
 }

@@ -12,12 +12,26 @@ sealed interface AppRoute {
     @Serializable
     data object MyGardenRootRoute : AppRoute
     @Serializable
-    data object MyGardenRoute : AppRoute
+    data class MyGardenRoute(
+        val selectedTab : String = "My Plants"
+    ) : AppRoute
+
+    @Serializable
+    data object AiRootRoute : AppRoute
     @Serializable
     data object AiRoute : AppRoute
 
     @Serializable
+    data object IdentifyRoute : AppRoute
+
+    @Serializable
     data object AddPlantRoute : AppRoute
+
+    @Serializable
+    data object DiagnoseRoute : AppRoute
+
+    @Serializable
+    data object DiagnoseResultRoute : AppRoute
 
     @Serializable
     data object WateringPlantRoute : AppRoute

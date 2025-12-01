@@ -44,7 +44,11 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navigateWatering : () -> Unit,
-    navigateSearch : (String) -> Unit
+    navigateSearch : (String) -> Unit,
+    navigateIdentify: () -> Unit,
+    navigateDiagnose: () -> Unit,
+    navigateMyPlant : (String) -> Unit,
+    navigateSchedule : (String) -> Unit
 ) {
 
     val viewModel : HomeViewModel = koinViewModel()
@@ -136,7 +140,20 @@ fun HomeScreen(
                                 description = feature.description,
                                 icon = feature.icon
                             ) {
-
+                                when{
+                                    feature.title == "Diagnose" -> {
+                                        navigateDiagnose()
+                                    }
+                                    feature.title == "Identify" -> {
+                                        navigateIdentify()
+                                    }
+                                    feature.title == "My Plants" -> {
+                                        navigateMyPlant("My Plants")
+                                    }
+                                    feature.title == "Schedule" -> {
+                                        navigateSchedule("Schedule")
+                                    }
+                                }
                             }
                         }
                     }

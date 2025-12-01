@@ -4,17 +4,15 @@ package com.example.plantcare.presentation.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.plantcare.domain.repository.MyPlantRepository
-import com.example.plantcare.domain.repository.PlantRepository
+import com.example.plantcare.domain.repository.MyGardenRepository
 import com.example.plantcare.domain.repository.WeatherRepository
-import com.example.plantcare.util.Resource
 import com.example.plantcare.util.location.LocationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val myPlantRepository: MyPlantRepository,
+    private val myGardenRepository: MyGardenRepository,
     private val weatherRepository: WeatherRepository,
     private val locationRepository: LocationRepository
 ) : ViewModel() {
@@ -33,7 +31,7 @@ class HomeViewModel(
             _state.value = _state.value.copy(
                 isLoading = true
             )
-            myPlantRepository.getAllPlants().collect { plants ->
+            myGardenRepository.getAllPlants().collect { plants ->
 
                 val now = System.currentTimeMillis()
                 val plantsNeedWatering = plants.filter { plant ->
@@ -79,24 +77,24 @@ class HomeViewModel(
                 isLoading = true
             )
             val latLon = locationRepository.getCurrentLocation()
-            Log.d("HomeViewModel", "getWeather: $latLon")
-            if (latLon != null) {
-                val data = weatherRepository
-                    .getCurrentWeather(latLon.latitude, latLon.longitude)
-                if (data != null) {
-                    Log.d("HomeViewModel", "getWeather: ${data.data}")
-                    _state.value = _state.value.copy(
-                        weather = data.data,
-                        isLoading = false
-                    )
-                } else {
-                    Log.d("HomeViewModel", "getWeather: ${data.msg}")
-                    _state.value = _state.value.copy(
-                        errorMsg =  "Unknown Error",
-                        isLoading = false
-                    )
-                }
+            Log.d("HomeViewModel", "LatLon: $latLon")
+
+            val data = weatherRepository
+                .getCurrentWeather(latLon?.latitude ?: -7.983908, latLon?.longitude ?: 112.621391)
+            if (data != null) {
+                Log.d("HomeViewModel", "getWeather: ${data.data}")
+                _state.value = _state.value.copy(
+                    weather = data.data,
+                    isLoading = false
+                )
+            } else {
+                Log.d("HomeViewModel", "getWeather: ${data.msg}")
+                _state.value = _state.value.copy(
+                    errorMsg = "Unknown Error",
+                    isLoading = false
+                )
             }
+
         }
     }
 
